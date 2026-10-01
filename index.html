@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тобі натхнення! ✨</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #4a4a4a;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 35px 25px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(255, 154, 158, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .heart-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #e85a71;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .wish-box {
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .wish-text {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #333;
+            font-weight: 500;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
+            transition: all 0.2s ease;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="heart-icon">💖</div>
+        <h1>Нагадування для тебе</h1>
+
+        <div class="wish-box">
+            <p class="wish-text" id="wishText">Завантажуємо щось приємне...</p>
+        </div>
+
+        <button onclick="newWish()">Натисни ще раз ✨</button>
+    </div>
+
+    <script>
+        const wishes = [
+            "Ти молодець, пам'ятай про це! ✨",
+            "У тебе обов'язково все вийде! 💖",
+            "Ти робиш цей світ трошки теплішим 🌸",
+            "Не забувай відпочивати, ти це заслужила ☕",
+            "Навіть якщо зараз важко — ти з усім впораєшся! 🌟",
+            "Усміхнися, тобі це дуже пасує! 😊",
+            "Твоя старанність дійсно захоплює 💫",
+            "Все буде добре, я в тебе вірю! 🥰",
+            "Ти здатна на більше, ніж тобі здається 🔥",
+            "Гарного і спокійного тобі дня! 🌿",
+            "Ти дуже особлива людина",
+            "Твої малюнки завжди були найгарнішим що я бачив:D",
+            "Що би не сталось ти завжди будеш найкращою😝",
+            "Ти власниця найгарнішого в світі голосу. Пам'ятай про це:)",
+            "З тобою комфортно<З",
+            "Вір у свої сили так само міцно, як я вірю в тебе 💖",
+            "Все обов'язково розставиться по місцях, не переживай 🍀",
+            "Усмішка це обійми на відстані. Усміхаюсь тобі 🫂",
+            "Ти — справжній промінчик світла, де б ти не була ☀️",
+            "Твоя енергія — це справжня магія ✨",
+            "Ніколи не сумнівайся у своїй унікальності 🌺",
+            "Ти варта найвищих вершин і найщиріших слів 🏔️",
+            "Будь ласка, бережи себе і свій внутрішній спокій 🕊️",
+            "Ти навіть не уявляєш, наскільки ти дивовижна 💖",
+            "Маленькими кроками до великих мрій — ти зможеш усе! 🐾",
+            "Ти справжнє сонечко навіть у похмурий день ☀️",
+            "Просто хотів нагадати, що ти дуже цінна 💎",
+            "Твоя усмішка здатна підняти настрій навіть у найпохмуріший день 🌤️",
+            "Ти робиш неймовірні речі, навіть коли сама цього не помічаєш 💫",
+            "Дякую, що ти є. З тобою все навколо стає затишнішим 🌷",
+            "Пам'ятай: ти сильніша, ніж здається, і варта всього найкращого 💖",
+            "Твій сміх — це найкраща мелодія ✨",
+            "Не порівнюй себе з іншими, бо ти — абсолютно унікальна 🦋",
+            "Завари собі смачного чаю та просто видихни ☕🍰",
+            "Кожен твій день — це нова маленька перемога 🌈",
+            "Твоя доброта й щирість надихають усіх навколо 💕",
+            "Ти варта всіх квітів світу й найщиріших обіймів 💐",
+            "З тобою навіть звичайні моменти стають особливими 🌙",
+            "Ніколи не опускай руки, твій шлях обов'язково приведе до щастя 🚀",
+            "Твоя турбота — це справжнє суперсвітло ✨",
+            "Дозволь собі іноді нікуди не поспішати й просто відпочити 🍃",
+            "Ти робиш цей день кращим просто тим, що ти є 🥰"
+        ];
+
+        let deck = [];
+
+        // Створення та перемішування колоди (алгоритм Фішера — Йейтса)
+        function refillAndShuffleDeck() {
+            deck = [...wishes];
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function newWish() {
+            const textElement = document.getElementById('wishText');
+            textElement.classList.add('fade-out');
+
+            setTimeout(() => {
+                // Якщо колода спорожніла — наповнюємо і перемішуємо заново
+                if (deck.length === 0) {
+                    refillAndShuffleDeck();
+                }
+
+                // Забираємо останній елемент із перемішаної колоди
+                const wish = deck.pop();
+
+                textElement.innerText = wish;
+                textElement.classList.remove('fade-out');
+            }, 300);
+        }
+
+        window.onload = newWish;
+    </script>
+</body>
+
+</html>
