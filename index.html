@@ -84,6 +84,12 @@
             transform: translateY(-8px);
         }
 
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         button {
             background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
             color: white;
@@ -97,6 +103,13 @@
             transition: all 0.2s ease;
             outline: none;
             -webkit-tap-highlight-color: transparent;
+            width: 100%;
+        }
+
+        /* Стилі для другої особливої кнопки (можна зробити іншого відтінку) */
+        .btn-special {
+            background: linear-gradient(135deg, #f857a6 0%, #ff5858 100%);
+            box-shadow: 0 8px 20px rgba(248, 87, 166, 0.4);
         }
 
         button:active {
@@ -115,7 +128,10 @@
             <p class="wish-text" id="wishText">Завантажуємо щось приємне...</p>
         </div>
 
-        <button onclick="newWish()">Натисни ще раз ✨</button>
+        <div class="buttons-container">
+            <button onclick="newWish()">Натисни ще раз ✨</button>
+            <button class="btn-special" onclick="showSpecialWish()">Особливе побажання 💌</button>
+        </div>
     </div>
 
     <script>
@@ -164,9 +180,16 @@
             "Ти робиш цей день кращим просто тим, що ти є 🥰"
         ];
 
-        let deck = [];
+        // Список ваших особливих/особистих побажань (можете сюди вписати свої фрази)
+        const specialWishes = [
+            "Екстрена солодка допомога для підняття твого настрою! 🍫 У разі сумму — з'їсти обов'язково (і посміхнутись) :D",
+            "Тут не дуже багато, але надіюсь твій настрій хоч трошки підніметься і твої нерви трошки більше збережуться:) Ти найкраща",
 
-        // Створення та перемішування колоди (алгоритм Фішера — Йейтса)
+        ];
+
+        let deck = [];
+        let specialIndex = 0;
+
         function refillAndShuffleDeck() {
             deck = [...wishes];
             for (let i = deck.length - 1; i > 0; i--) {
@@ -175,24 +198,42 @@
             }
         }
 
+        // Звичайна кнопка (випадкові фрази з колоди)
         function newWish() {
             const textElement = document.getElementById('wishText');
             textElement.classList.add('fade-out');
 
             setTimeout(() => {
-                // Якщо колода спорожніла — наповнюємо і перемішуємо заново
                 if (deck.length === 0) {
                     refillAndShuffleDeck();
                 }
-
-                // Забираємо останній елемент із перемішаної колоди
                 const wish = deck.pop();
-
                 textElement.innerText = wish;
                 textElement.classList.remove('fade-out');
             }, 300);
         }
 
+        // Нова особлива кнопка (виводить фрази по черзі або конкретне повідомлення)
+        function showSpecialWish() {
+            const textElement = document.getElementById('wishText');
+            textElement.classList.add('fade-out');
+
+            setTimeout(() => {
+                // Виводимо поточне особливе побажання
+                const wish = specialWishes[specialIndex];
+                textElement.innerText = wish;
+                textElement.classList.remove('fade-out');
+
+                // Переходимо до наступного особливого побажання за кожним кліком (по колу)
+                specialIndex = (specialIndex + 1) % specialWishes.length;
+            }, 300);
+        }
+
+        window.onload = newWish;
+    </script>
+</body>
+
+</html>
         window.onload = newWish;
     </script>
 </body>
